@@ -1,7 +1,8 @@
 #ifndef SRC_ARRAYUTILS_H_
 #define SRC_ARRAYUTILS_H_
 
-void AllocArrayAdd5(int size);
-void PrintArray(int** arr, int size);
+void allocArrayAdd5(int size);
+bool allocArray2Dim(int*** array, int size_x, int size_y);
+void printArray(int** array, int size);
 
 #endif

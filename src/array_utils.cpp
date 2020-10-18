@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-void AllocArrayAdd5(int size) {
+void allocArrayAdd5(int size) {
   if (size < 1) return;
   int* arr = new int[size];
   const int offset = 5;
@@ -11,18 +11,27 @@ void AllocArrayAdd5(int size) {
     arr[i] = i + offset;
   }
 
-  PrintArray(&arr, size);
+  printArray(&arr, size);
 
   delete[] arr;
 }
 
-// bool AllocArray2Dim(int ???piTable, int iSizeX, int iSizeY) {
+bool allocArray2Dim(int*** array, int size_x, int size_y) {
+  *array = new int*[size_x];
 
-// }
+  if (*array == NULL) return false;
 
-void PrintArray(int** arr, int size) {
+  for (int i = 0; i < size_x; ++i) {
+    (*array)[i] = new int[size_y];
+    if ((*array)[i] == NULL) return false;
+  }
+
+  return true;
+}
+
+void printArray(int** array, int size) {
   for (int i = 0; i < size; ++i) {
-    std::cout << (*arr)[i] << " ";
+    std::cout << (*array)[i] << " ";
   }
   std::cout << "\n";
 }
