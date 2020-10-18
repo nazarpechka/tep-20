@@ -1,12 +1,12 @@
 #include <iostream>
 
-#include "array_utils.h"
+#include "table_utils.h"
 
 int main(int argc, char** argv) {
-  allocArrayAdd5(5);
+  allocTableAdd5(5);
 
   int** dim_array = NULL;
-  if (allocArray2Dim(&dim_array, 2, 2)) {
+  if (allocTable2Dim(dim_array, 2, 2)) {
     std::cout << dim_array;
 
     dim_array[0][0] = 0;
@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
       std::cout << "\n";
     }
 
-    deallocArray2Dim(&dim_array, 2, 2);
+    deallocTable2Dim(&dim_array, 2, 2);
   }
   return 0;
 }

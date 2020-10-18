@@ -1,8 +1,8 @@
-#include "array_utils.h"
+#include "table_utils.h"
 
 #include <iostream>
 
-void allocArrayAdd5(int size) {
+void allocTableAdd5(int size) {
   if (size < 1) return;
   int* arr = new int[size];
   const int offset = 5;
@@ -11,25 +11,25 @@ void allocArrayAdd5(int size) {
     arr[i] = i + offset;
   }
 
-  printArray(&arr, size);
+  printTable(&arr, size);
 
   delete[] arr;
 }
 
-bool allocArray2Dim(int*** array, int size_x, int size_y) {
-  *array = new int*[size_x];
+bool allocTable2Dim(int**& array, int size_x, int size_y) {
+  array = new int*[size_x];
 
-  if (*array == NULL) return false;
+  if (array == NULL) return false;
 
   for (int i = 0; i < size_x; ++i) {
-    (*array)[i] = new int[size_y];
-    if ((*array)[i] == NULL) return false;
+    array[i] = new int[size_y];
+    if (array[i] == NULL) return false;
   }
 
   return true;
 }
 
-bool deallocArray2Dim(int*** array, int size_x, int size_y) {
+bool deallocTable2Dim(int*** array, int size_x, int size_y) {
   for (int i = 0; i < size_x; ++i) {
     delete[](*array)[i];
   }
@@ -37,7 +37,7 @@ bool deallocArray2Dim(int*** array, int size_x, int size_y) {
   return true;
 }
 
-void printArray(int** array, int size) {
+void printTable(int** array, int size) {
   for (int i = 0; i < size; ++i) {
     std::cout << (*array)[i] << " ";
   }
