@@ -2,7 +2,7 @@
 
 #include "array_utils.h"
 
-int main(void) {
+int main(int argc, char** argv) {
   allocArrayAdd5(5);
 
   int** dim_array = NULL;
@@ -20,6 +20,8 @@ int main(void) {
       }
       std::cout << "\n";
     }
+
+    deallocArray2Dim(&dim_array, 2, 2);
   }
   return 0;
 }

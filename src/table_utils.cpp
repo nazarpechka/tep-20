@@ -29,6 +29,14 @@ bool allocArray2Dim(int*** array, int size_x, int size_y) {
   return true;
 }
 
+bool deallocArray2Dim(int*** array, int size_x, int size_y) {
+  for (int i = 0; i < size_x; ++i) {
+    delete[](*array)[i];
+  }
+  delete[](*array);
+  return true;
+}
+
 void printArray(int** array, int size) {
   for (int i = 0; i < size; ++i) {
     std::cout << (*array)[i] << " ";
