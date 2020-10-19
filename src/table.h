@@ -5,6 +5,9 @@
 
 class Table {
  private:
+  static const std::string kDefaultName;
+  static const int kDefaultSize;
+
   std::string name_;
   int *table_;
   int size_;

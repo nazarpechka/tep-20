@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-Table::Table() {
-  const int kDefaultSize = 5;
-  const std::string kDefaultName = "default_table";
+const std::string Table::kDefaultName = "default_table";
+const int Table::kDefaultSize = 5;
 
+Table::Table() {
   name_ = kDefaultName;
   std::cout << "bezp: '" << name_ << "'\n";
 
