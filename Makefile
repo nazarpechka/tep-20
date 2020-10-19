@@ -19,11 +19,11 @@ all: $(TARGET)
 .PHONY: all
 
 $(TARGET): $(OBJECTS) | $(BIN_DIR)
-	@echo "Linking the final executable $@"
+	@echo "	Linking the final executable $@"
 	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	@echo "Compiling $<"
+	@echo "	Compiling $<"
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@ 
 
 $(BIN_DIR) $(OBJ_DIR):

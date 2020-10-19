@@ -5,17 +5,19 @@
 
 class Table {
  private:
-  std::string m_name;
+  std::string name_;
+  int *table_;
+  int size_;
 
  public:
   Table();
-  Table(const std::string &name, int length);
+  Table(const std::string &name, int size);
   Table(Table &other);
   ~Table();
 
-  void setName(const std::string &name);
-  bool setNewSize(int length);
-  Table *clone();
+  void SetName(const std::string &name);
+  bool SetNewSize(int size);
+  Table *Clone();
 };
 
 #endif

@@ -2,44 +2,64 @@
 
 #include <iostream>
 
-void allocTableAdd5(int size) {
+void AllocTableAdd5(int size) {
   if (size < 1) return;
-  int* arr = new int[size];
-  const int offset = 5;
+
+  const int kAddValue = 5;
+  int *table = new int[size];
 
   for (int i = 0; i < size; ++i) {
-    arr[i] = i + offset;
+    table[i] = i + kAddValue;
   }
 
-  printTable(&arr, size);
+  PrintTable(table, size);
 
-  delete[] arr;
+  delete[] table;
 }
 
-bool allocTable2Dim(int**& array, int size_x, int size_y) {
-  array = new int*[size_x];
+// We can also only with pointers - int ***table, then dereference to use
+bool AllocTable2Dim(int **&table, int size_x, int size_y) {
+  table = new int *[size_x];
 
-  if (array == NULL) return false;
+  if (table == NULL) return false;
 
   for (int i = 0; i < size_x; ++i) {
-    array[i] = new int[size_y];
-    if (array[i] == NULL) return false;
+    table[i] = new int[size_y];
+    if (table[i] == NULL) return false;
   }
 
   return true;
 }
 
-bool deallocTable2Dim(int*** array, int size_x, int size_y) {
+// We don't need size_y for deallocation process
+bool DeallocTable2Dim(int **&table, int size_x, int size_y) {
+  if (table == NULL) return false;
+
   for (int i = 0; i < size_x; ++i) {
-    delete[](*array)[i];
+    if (table[i] == NULL) return false;
+    delete[] table[i];
+    table[i] = NULL;
   }
-  delete[](*array);
+
+  delete[] table;
+  table = NULL;
   return true;
 }
 
-void printTable(int** array, int size) {
+void PrintTable(int table[], int size) {
+  std::cout << '\n';
   for (int i = 0; i < size; ++i) {
-    std::cout << (*array)[i] << " ";
+    std::cout << table[i] << ' ';
   }
-  std::cout << "\n";
+  std::cout << '\n';
+}
+
+void PrintTable2Dim(int *table[], int size_x, int size_y) {
+  std::cout << '\n';
+  for (int i = 0; i < size_x; ++i) {
+    for (int j = 0; j < size_y; ++j) {
+      std::cout << table[i][j] << ' ';
+    }
+    std::cout << '\n';
+  }
 }
