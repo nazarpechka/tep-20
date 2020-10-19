@@ -7,7 +7,7 @@ int main(void) {
   // Zadanie 1
   AllocTableAdd5(10);
 
-  // Zadanie 2
+  // Zadanie 2 i 3
   const int kSizeX = 2, ksizeY = 3;
   int **table_2dim = NULL;
   if (AllocTable2Dim(table_2dim, kSizeX, ksizeY)) {
@@ -24,7 +24,7 @@ int main(void) {
     DeallocTable2Dim(table_2dim, kSizeX, ksizeY);
   }
 
-  // Zadanie 3
+  // Zadanie 4
   {
     Table stat_tab("static_table", 10);
     Table *dyn_tab = new Table("dynamic_table", 10);
@@ -34,6 +34,10 @@ int main(void) {
 
     ModifyTable(&stat_tab, 15);  // Works on a pointer
     std::cout << stat_tab.GetName() << " size = " << stat_tab.GetSize() << '\n';
+
+    Table *clone_tab = dyn_tab->Clone();
+    assert(clone_tab->GetName() == dyn_tab->GetName());
+    assert(clone_tab->GetSize() == dyn_tab->GetSize());
 
     delete dyn_tab;
   }

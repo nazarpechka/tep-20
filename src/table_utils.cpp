@@ -19,6 +19,8 @@ void AllocTableAdd5(int size) {
 
 // We can also only with pointers - int ***table, then dereference to use
 bool AllocTable2Dim(int **&table, int size_x, int size_y) {
+  if (size_x < 1 || size_y < 1) return false;
+
   table = new int *[size_x];
 
   if (table == NULL) return false;
