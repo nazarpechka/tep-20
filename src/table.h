@@ -16,7 +16,9 @@ class Table {
   ~Table();
 
   void SetName(const std::string &name);
-  bool SetNewSize(int size);
+  std::string GetName();
+  bool SetNewSize(int new_size);
+  int GetSize();
   Table *Clone();
 };
 

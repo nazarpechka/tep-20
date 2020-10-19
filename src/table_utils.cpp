@@ -63,3 +63,7 @@ void PrintTable2Dim(int *table[], int size_x, int size_y) {
     std::cout << '\n';
   }
 }
+
+void ModifyTable(Table *table, int new_size) { table->SetNewSize(new_size); }
+
+void ModifyTable(Table table, int new_size) { table.SetNewSize(new_size); }

@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "table.h"
 #include "table_utils.h"
 
 int main(void) {
@@ -21,6 +22,20 @@ int main(void) {
     PrintTable2Dim(table_2dim, kSizeX, ksizeY);
 
     DeallocTable2Dim(table_2dim, kSizeX, ksizeY);
+  }
+
+  // Zadanie 3
+  {
+    Table stat_tab("static_table", 10);
+    Table *dyn_tab = new Table("dynamic_table", 10);
+
+    ModifyTable(stat_tab, 15);  // Copies the object
+    std::cout << stat_tab.GetName() << " size = " << stat_tab.GetSize() << '\n';
+
+    ModifyTable(&stat_tab, 15);  // Works on a pointer
+    std::cout << stat_tab.GetName() << " size = " << stat_tab.GetSize() << '\n';
+
+    delete dyn_tab;
   }
 
   return 0;
