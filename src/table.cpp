@@ -18,7 +18,7 @@ Table::Table(const std::string &name, int size) {
   std::cout << "parametr: '" << name_ << "'\n";
 
   size_ = size;
-  table_ = new int[size];
+  table_ = new int[size_];
 }
 
 Table::Table(Table &other) {
@@ -39,7 +39,7 @@ Table::~Table() {
 
 void Table::SetName(const std::string &name) { name_ = name; }
 
-std::string Table::GetName() { return name_; }
+const std::string &Table::GetName() const { return name_; }
 
 bool Table::SetNewSize(int new_size) {
   if (new_size <= size_) return false;
@@ -57,7 +57,7 @@ bool Table::SetNewSize(int new_size) {
   return true;
 }
 
-int Table::GetSize() { return size_; }
+int Table::GetSize() const { return size_; }
 
 Table *Table::Clone() {
   Table *clone = new Table(*this);
