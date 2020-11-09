@@ -27,9 +27,17 @@ Table::Table(Table &other) {
 
   size_ = other.size_;
   table_ = new int[size_];
-  for (int i = 0; i < size_; ++i) {
-    table_[i] = other.table_[i];
-  }
+  memcpy(table_, other.table_, size_ * sizeof(int));
+}
+
+void Table::operator=(const Table &other) {
+  name_ = other.name_;
+  std::cout << "operator=: '" << name_ << "'\n";
+
+  size_ = other.size_;
+  delete[] table_;
+  table_ = new int[size_];
+  memcpy(table_, other.table_, size_ * sizeof(int));
 }
 
 Table::~Table() {
@@ -41,13 +49,11 @@ void Table::SetName(const std::string &name) { name_ = name; }
 
 const std::string &Table::GetName() const { return name_; }
 
-bool Table::SetNewSize(int new_size) {
+bool Table::SetSize(int new_size) {
   if (new_size <= size_) return false;
   int *new_table = new int[new_size];
 
-  for (int i = 0; i < size_; ++i) {
-    new_table[i] = table_[i];
-  }
+  memcpy(new_table, table_, size_ * sizeof(int));
 
   delete[] table_;
 
@@ -58,6 +64,19 @@ bool Table::SetNewSize(int new_size) {
 }
 
 int Table::GetSize() const { return size_; }
+
+void Table::Print() const {
+  for (int i = 0; i < size_; ++i) {
+    std::cout << table_[i] << " ";
+  }
+  std::cout << '\n';
+}
+
+void Table::SetValueAt(int index, int val) {
+  if (index > -1 && index < size_) {
+    table_[index] = val;
+  }
+}
 
 Table *Table::Clone() {
   Table *clone = new Table(*this);
