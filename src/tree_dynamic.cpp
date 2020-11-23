@@ -2,11 +2,11 @@
 
 #include <algorithm>
 #include <iostream>
-#include <iterator>
 
 NodeDynamic::NodeDynamic() {
   val_ = 0;
   parent_ = NULL;
+  children_.reserve(3);
 }
 
 NodeDynamic::~NodeDynamic() {
@@ -25,7 +25,7 @@ void NodeDynamic::SetParent(NodeDynamic* parent) { parent_ = parent; }
 
 NodeDynamic* NodeDynamic::GetParent() const { return parent_; }
 
-void NodeDynamic::AddNewChild() {
+void NodeDynamic::AddChild() {
   NodeDynamic* child = new NodeDynamic();
   child->SetParent(this);
   children_.push_back(child);
@@ -35,21 +35,52 @@ NodeDynamic* NodeDynamic::GetChild(unsigned int offset) {
   return (offset < children_.size() ? children_[offset] : NULL);
 }
 
-bool NodeDynamic::MoveSubtree(NodeDynamic* new_child) {
-  std::vector<NodeDynamic*>& parent_vector = new_child->parent_->children_;
-  std::vector<NodeDynamic*>::iterator found =
-      std::find(parent_vector.begin(), parent_vector.end(), new_child);
-  if (found != parent_vector.end()) parent_vector.erase(found);
+void NodeDynamic::UpdateChildrenPointers() {
+  const int size = children_.size();
+  for (int i = 0; i < size; ++i) {
+    children_[i]->SetParent(this);
+  }
+}
 
-  children_.push_back(new_child);
+bool NodeDynamic::MoveSubtree(NodeDynamic* child) {
+  if (child == NULL) return false;
+
+  if (child->parent_ != NULL) {
+    // Remove the child from previous parent
+    std::vector<NodeDynamic*>& parent_vector = child->parent_->children_;
+    std::vector<NodeDynamic*>::iterator iter =
+        std::find(parent_vector.begin(), parent_vector.end(), child);
+
+    if (iter != parent_vector.end()) parent_vector.erase(iter);
+  } else {
+    // If child is root in the other tree, create a copy
+    NodeDynamic* child_copy = new NodeDynamic(*child);
+    child->children_.clear();
+    child->val_ = 0;
+    child = child_copy;
+    child->UpdateChildrenPointers();
+  }
+
+  child->SetParent(this);
+  children_.push_back(child);
+
+  return true;
 }
 
 void NodeDynamic::Print() const { std::cout << " " << val_; }
 
-void NodeDynamic::PrintBelow() const {
+void NodeDynamic::PrintUp() const {
+  Print();
+  if (parent_ != NULL)
+    parent_->PrintUp();
+  else
+    std::cout << '\n';
+}
+
+void NodeDynamic::PrintDown() const {
   Print();
   for (size_t i = 0; i < children_.size(); ++i) {
-    children_[i]->PrintBelow();
+    children_[i]->PrintDown();
   }
 }
 
@@ -60,6 +91,6 @@ TreeDynamic::~TreeDynamic() { delete root; }
 NodeDynamic* TreeDynamic::GetRoot() { return root; }
 
 void TreeDynamic::PrintTree() {
-  root->PrintBelow();
+  root->PrintDown();
   std::cout << '\n';
 }

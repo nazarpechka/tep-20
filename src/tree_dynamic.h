@@ -12,12 +12,14 @@ class NodeDynamic {
   int GetChildrenNumber() const;
   void SetParent(NodeDynamic *parent);
   NodeDynamic *GetParent() const;
-  void AddNewChild();
+  void AddChild();
   NodeDynamic *GetChild(unsigned int offset);
 
-  bool MoveSubtree(NodeDynamic *new_child);
+  void UpdateChildrenPointers();
+  bool MoveSubtree(NodeDynamic *child);
   void Print() const;
-  void PrintBelow() const;
+  void PrintUp() const;
+  void PrintDown() const;
 
  private:
   std::vector<NodeDynamic *> children_;

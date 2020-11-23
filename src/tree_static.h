@@ -12,12 +12,16 @@ class NodeStatic {
   int GetChildrenNumber() const;
   void SetParent(NodeStatic *parent);
   NodeStatic *GetParent() const;
-  void AddNewChild();
+  void AddChild();
   NodeStatic *GetChild(unsigned int offset);
 
+  bool operator==(const NodeStatic &other);
+
+  void UpdateChildrenPointers();
+  bool MoveSubtree(NodeStatic *child);
   void Print() const;
   void PrintUp() const;
-  void PrintBelow() const;
+  void PrintDown() const;
 
  private:
   std::vector<NodeStatic> children_;
