@@ -17,6 +17,7 @@ class NodeDynamic {
 
   void UpdateChildrenPointers();
   bool MoveSubtree(NodeDynamic *child);
+  bool FromTheSameTree(NodeDynamic *second);
   void Print() const;
   void PrintUp() const;
   void PrintDown() const;

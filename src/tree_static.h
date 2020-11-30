@@ -19,6 +19,7 @@ class NodeStatic {
 
   void UpdateChildrenPointers();
   bool MoveSubtree(NodeStatic *child);
+  bool FromTheSameTree(NodeStatic *second);
   void Print() const;
   void PrintUp() const;
   void PrintDown() const;

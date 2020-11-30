@@ -3,7 +3,7 @@
 #include "tree_dynamic.h"
 #include "tree_static.h"
 
-#define CURR_TREE TreeDynamic
+#define CURR_TREE TreeStatic
 
 void TestTree() {
   std::cout << "Example tree:\n";
@@ -31,6 +31,10 @@ void TestTree() {
 
   tree.GetRoot()->GetChild(1)->GetChild(0)->SetValue(21);
   tree.GetRoot()->GetChild(1)->GetChild(1)->SetValue(22);
+
+  std::cout << tree.GetRoot()->GetChild(0)->FromTheSameTree(
+                   tree.GetRoot()->GetChild(1))
+            << '\n';
 
   tree.PrintTree();
   std::cout << '\n';
@@ -75,15 +79,20 @@ void TestMoving() {
 
   second_tree.PrintTree();
 
-  first_tree.GetRoot()->GetChild(2)->MoveSubtree(second_tree.GetRoot());
+  std::cout << first_tree.GetRoot()->GetChild(0)->FromTheSameTree(
+                   second_tree.GetRoot()->GetChild(0)->GetChild(0))
+            << '\n';
 
-  std::cout << "After moving:\n";
-  first_tree.PrintTree();
-  second_tree.PrintTree();
+  // first_tree.GetRoot()->GetChild(2)->MoveSubtree(
+  //     second_tree.GetRoot()->GetChild(0));
 
-  std::cout << "From bottom to top:\n";
-  first_tree.GetRoot()->GetChild(2)->GetChild(1)->GetChild(1)->PrintUp();
-  second_tree.GetRoot()->PrintUp();
+  // std::cout << "After moving:\n";
+  // first_tree.PrintTree();
+  // second_tree.PrintTree();
+
+  // std::cout << "From bottom to top:\n";
+  // first_tree.GetRoot()->GetChild(2)->GetChild(1)->GetChild(1)->PrintUp();
+  // second_tree.GetRoot()->GetChild(0)->PrintUp();
 }
 
 int main(void) {

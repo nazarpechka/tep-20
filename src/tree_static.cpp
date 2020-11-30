@@ -66,6 +66,21 @@ bool NodeStatic::MoveSubtree(NodeStatic* child) {
   return true;
 }
 
+bool NodeStatic::FromTheSameTree(NodeStatic* second) {
+  NodeStatic* root_first = this;
+  NodeStatic* root_second = second;
+
+  while (root_first->parent_ != NULL) {
+    root_first = root_first->parent_;
+  }
+
+  while (root_second->parent_ != NULL) {
+    root_second = root_second->parent_;
+  }
+
+  return root_first == root_second;
+}
+
 void NodeStatic::Print() const { std::cout << " " << val_; }
 
 void NodeStatic::PrintUp() const {

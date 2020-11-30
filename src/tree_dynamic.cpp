@@ -67,6 +67,21 @@ bool NodeDynamic::MoveSubtree(NodeDynamic* child) {
   return true;
 }
 
+bool NodeDynamic::FromTheSameTree(NodeDynamic* second) {
+  NodeDynamic* root_first = this;
+  NodeDynamic* root_second = second;
+
+  while (root_first->parent_ != NULL) {
+    root_first = root_first->parent_;
+  }
+
+  while (root_second->parent_ != NULL) {
+    root_second = root_second->parent_;
+  }
+
+  return root_first == root_second;
+}
+
 void NodeDynamic::Print() const { std::cout << " " << val_; }
 
 void NodeDynamic::PrintUp() const {
