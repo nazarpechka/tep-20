@@ -5,45 +5,35 @@
 void TestTree() {
   std::cout << "Example trees:\n";
   /*
-            0
+            5
         1      2
       11 12  21 22
   */
   TreeDynamic<int> tree;
 
-  tree.GetRoot()->AddChild();
-  tree.GetRoot()->AddChild();
+  tree.GetRoot()->SetValue(5);
 
-  tree.GetRoot()->GetChild(0)->SetValue(1);
-  tree.GetRoot()->GetChild(1)->SetValue(2);
+  tree.GetRoot()->AddChild(1);
+  tree.GetRoot()->AddChild(2);
 
-  tree.GetRoot()->GetChild(0)->AddChild();
-  tree.GetRoot()->GetChild(0)->AddChild();
+  tree.GetRoot()->GetChild(0)->AddChild(11);
+  tree.GetRoot()->GetChild(0)->AddChild(12);
 
-  tree.GetRoot()->GetChild(0)->GetChild(0)->SetValue(11);
-  tree.GetRoot()->GetChild(0)->GetChild(1)->SetValue(12);
-
-  tree.GetRoot()->GetChild(1)->AddChild();
-  tree.GetRoot()->GetChild(1)->AddChild();
-
-  tree.GetRoot()->GetChild(1)->GetChild(0)->SetValue(21);
-  tree.GetRoot()->GetChild(1)->GetChild(1)->SetValue(22);
+  tree.GetRoot()->GetChild(1)->AddChild(21);
+  tree.GetRoot()->GetChild(1)->AddChild(22);
 
   tree.PrintTree();
   std::cout << '\n';
 
   TreeDynamic<std::string> second_tree;
 
-  second_tree.GetRoot()->AddChild();
-  second_tree.GetRoot()->AddChild();
+  second_tree.GetRoot()->AddChild("Hello");
+  second_tree.GetRoot()->AddChild("World");
 
-  second_tree.GetRoot()->GetChild(0)->SetValue("Hello");
-  second_tree.GetRoot()->GetChild(1)->SetValue("World");
-
-  second_tree.GetRoot()->GetChild(0)->AddChild();
-  second_tree.GetRoot()->GetChild(0)->GetChild(0)->SetValue("123");
+  second_tree.GetRoot()->GetChild(0)->AddChild("123");
 
   second_tree.PrintTree();
+
   std::cout << '\n';
 }
 

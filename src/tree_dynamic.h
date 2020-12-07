@@ -7,16 +7,17 @@ template <typename T>
 class NodeDynamic {
  public:
   NodeDynamic();
+  NodeDynamic(const T& val);
   ~NodeDynamic();
 
-  void SetValue(T new_val);
+  void SetValue(const T& new_val);
   int GetChildrenCount() const;
   void SetParent(NodeDynamic<T>* parent);
   NodeDynamic<T>* GetParent() const;
   void AddChild();
+  void AddChild(const T& val);
   NodeDynamic<T>* GetChild(unsigned int offset);
 
-  void UpdateChildrenPointers();
   bool MoveSubtree(NodeDynamic<T>* child);
   bool FromTheSameTree(NodeDynamic<T>* other);
   void Print() const;
@@ -44,8 +45,15 @@ class TreeDynamic {
 
 template <typename T>
 NodeDynamic<T>::NodeDynamic() {
-  parent_ = NULL;
   children_.reserve(3);
+  parent_ = NULL;
+}
+
+template <typename T>
+NodeDynamic<T>::NodeDynamic(const T& val) {
+  children_.reserve(3);
+  parent_ = NULL;
+  val_ = val;
 }
 
 template <typename T>
@@ -57,7 +65,7 @@ NodeDynamic<T>::~NodeDynamic() {
 }
 
 template <typename T>
-void NodeDynamic<T>::SetValue(T new_val) {
+void NodeDynamic<T>::SetValue(const T& new_val) {
   val_ = new_val;
 }
 
@@ -84,38 +92,29 @@ void NodeDynamic<T>::AddChild() {
 }
 
 template <typename T>
+void NodeDynamic<T>::AddChild(const T& val) {
+  NodeDynamic<T>* child = new NodeDynamic<T>(val);
+
+  child->SetParent(this);
+  children_.push_back(child);
+}
+
+template <typename T>
 NodeDynamic<T>* NodeDynamic<T>::GetChild(unsigned int offset) {
   return (offset < children_.size() ? children_[offset] : NULL);
 }
 
 template <typename T>
-void NodeDynamic<T>::UpdateChildrenPointers() {
-  const int size = children_.size();
-  for (int i = 0; i < size; ++i) {
-    children_[i]->SetParent(this);
-  }
-}
-
-template <typename T>
 bool NodeDynamic<T>::MoveSubtree(NodeDynamic<T>* child) {
-  if (child == NULL) return false;
+  if (child == NULL || child->parent_ == NULL || child == this) return false;
 
-  if (child->parent_ != NULL) {
-    // Remove the child from previous parent
-    typename std::vector<NodeDynamic<T>*>& parent_vector =
-        child->parent_->children_;
-    typename std::vector<NodeDynamic<T>*>::iterator iter =
-        std::find(parent_vector.begin(), parent_vector.end(), child);
+  // Remove the child from previous parent
+  typename std::vector<NodeDynamic<T>*>& parent_vector =
+      child->parent_->children_;
+  typename std::vector<NodeDynamic<T>*>::iterator iter =
+      std::find(parent_vector.begin(), parent_vector.end(), child);
 
-    if (iter != parent_vector.end()) parent_vector.erase(iter);
-  } else {
-    // If child is root in the other tree, create a copy
-    NodeDynamic<T>* child_copy = new NodeDynamic<T>(*child);
-    child->children_.clear();
-    child->val_ = 0;
-    child = child_copy;
-    child->UpdateChildrenPointers();
-  }
+  if (iter != parent_vector.end()) parent_vector.erase(iter);
 
   child->SetParent(this);
   children_.push_back(child);
@@ -125,6 +124,8 @@ bool NodeDynamic<T>::MoveSubtree(NodeDynamic<T>* child) {
 
 template <typename T>
 bool NodeDynamic<T>::FromTheSameTree(NodeDynamic<T>* other) {
+  if (this == other) return true;
+
   NodeDynamic<T>* root_first = this;
   NodeDynamic<T>* root_second = other;
 
