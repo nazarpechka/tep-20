@@ -10,7 +10,7 @@ OBJECTS := $(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 CXX := clang++
 CPPFLAGS := -g -I$(INC_DIR) -MMD -MP
-CXXFLAGS := -std=c++98 -Wall -Wextra 
+CXXFLAGS := -std=c++11 -Wall -Wextra 
 LDFLAGS := 
 LDLIBS := 
 

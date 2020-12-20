@@ -1,5 +1,7 @@
 #include <iostream>
+#include <string>
 
+#include "shared_pointer.h"
 #include "table.h"
 
 int main(void) {
@@ -50,22 +52,25 @@ int main(void) {
   // res = first + second;
   // std::cout << res << '\n';
 
-  std::cout << '\n';
-  Table test("test", 3);
-  test.SetValueAt(0, 3);
-  test.SetValueAt(1, 4);
-  test.SetValueAt(2, 5);
-  test[2] = 5;
+  // std::cout << '\n';
+  // Table test("test", 3);
+  // test.SetValueAt(0, 3);
+  // test.SetValueAt(1, 4);
+  // test.SetValueAt(2, 5);
+  // test[2] = 5;
 
-  std::cout << test << '\n';
-  test *= 2;
-  std::cout << test << '\n';
+  // std::cout << test << '\n';
+  // test *= 2;
+  // std::cout << test << '\n';
 
-  std::cout << '\n';
+  // std::cout << '\n';
 
-  Table test2;
-  test2 = test * 2;
-  std::cout << test2 << '\n';
+  // Table test2;
+  // test2 = test * 2;
+  // std::cout << test2 << '\n';
+  std::string str = "Nazar";
+  SharedPointer<std::string> strpoint = &str;
+  std::cout << *strpoint;
 
   return 0;
 }

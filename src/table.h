@@ -7,12 +7,15 @@ class Table {
  public:
   Table();
   Table(const std::string &name, int size);
-  Table(Table &other);
+  Table(const Table &other);
+  Table(Table &&other);
   ~Table();
 
   friend std::ostream &operator<<(std::ostream &stream, const Table &other);
   friend std::istream &operator>>(std::istream &stream, const Table &other);
+
   Table &operator=(const Table &other);
+  Table &operator=(Table &&other);
   Table &operator*=(const int num);
   Table operator+(const Table &other) const;
   Table operator*(const int num);
@@ -20,23 +23,23 @@ class Table {
   bool operator!=(const Table &other) const;
   int &operator[](int index) const;
 
-  void SetName(const std::string &name);
-  const std::string &GetName() const;
-  bool SetSize(int new_size);
-  int GetSize() const;
-  void SetValueAt(int index, int val);
-  int GetValueAt(int index);
+  void setName(const std::string &name);
+  const std::string &getName() const;
+  bool setSize(int new_size);
+  int getSize() const;
+  void set(int index, int val);
+  int get(int index);
   void Print() const;
-  void MultiplyBy(int num);
+  void multiply(int num);
   Table *Clone();
 
  private:
-  static const std::string kDefaultName;
-  static const int kDefaultSize;
+  static const std::string DEFAULT_NAME;
+  static const int DEFAULT_SIZE;
 
-  std::string name_;
-  int *array_;
-  int size_;
+  std::string m_name;
+  int *m_array;
+  int m_size;
 };
 
 #endif
