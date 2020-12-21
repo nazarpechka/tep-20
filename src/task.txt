@@ -1,13 +1,22 @@
-#ifndef __SHARED_POINTER_H__
-#define __SHARED_POINTER_H__
+#include <iostream>
 
-#include "ref_counter.h"
+class RefCounter {
+ public:
+  RefCounter() { m_count = 0; };
+
+  int inc() { return ++m_count; };
+  int dec() { return --m_count; };
+  int get() { return m_count; };
+
+ private:
+  int m_count;
+};
 
 template <typename T>
 class SharedPointer {
  public:
   SharedPointer(T* pointer);
-  SharedPointer(const SharedPointer& other);
+  SharedPointer(const SharedPointer<T>& other);
   SharedPointer(SharedPointer<T>&& other);
   ~SharedPointer();
 
@@ -19,7 +28,7 @@ class SharedPointer {
   void setCounter(RefCounter* counter);
 
   template <typename E>
-  SharedPointer<E> dynamicCast();
+  SharedPointer<E> dyn_cast();
 
  private:
   T* m_pointer;
@@ -35,12 +44,14 @@ SharedPointer<T>::SharedPointer(T* pointer)
 template <typename T>
 SharedPointer<T>::SharedPointer(const SharedPointer<T>& other)
     : m_pointer(other.m_pointer), m_counter(other.m_counter) {
+  std::cout << "copy ctor\n";
   m_counter->inc();
 }
 
 template <typename T>
 SharedPointer<T>::SharedPointer(SharedPointer&& other)
     : m_pointer(other.m_pointer), m_counter(other.m_counter) {
+  std::cout << "move ctor\n";
   other.m_pointer = nullptr;
   other.m_counter = new RefCounter();
 }
@@ -75,23 +86,48 @@ T* SharedPointer<T>::operator->() {
 }
 
 template <typename T>
-T& SharedPointer<T>::operator*() {
-  return *m_pointer;
-}
-
-template <typename T>
 void SharedPointer<T>::setCounter(RefCounter* counter) {
   delete m_counter;
   m_counter = counter;
 }
 
 template <typename T>
+T& SharedPointer<T>::operator*() {
+  return *m_pointer;
+}
+
+template <typename T>
 template <typename E>
-SharedPointer<E> SharedPointer<T>::dynamicCast() {
+SharedPointer<E> SharedPointer<T>::dyn_cast() {
   SharedPointer<E> cast_ptr(dynamic_cast<E*>(m_pointer));
   cast_ptr.setCounter(m_counter);
   m_counter->inc();
   return cast_ptr;
 }
 
-#endif  // __SHARED_POINTER_H__
+class A {
+ public:
+  A() { std::cout << "Class A c'tor\n"; }
+
+  virtual ~A() { std::cout << "Class A d'tor\n"; }
+
+  void print() { std::cout << "I'm class A\n"; }
+};
+
+class B : public A {
+ public:
+  B() { std::cout << "Class B c'tor\n"; }
+
+  ~B() { std::cout << "Class B d'tor\n"; }
+
+  void print() { std::cout << "I'm class B\n"; }
+};
+
+int main() {
+  SharedPointer<B> ptr(new B());
+  ptr->print();
+  SharedPointer<A> casted = ptr.dyn_cast<A>();
+  casted->print();
+
+  return 0;
+}
