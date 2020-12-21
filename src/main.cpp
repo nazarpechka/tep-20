@@ -5,72 +5,70 @@
 #include "table.h"
 
 int main(void) {
-  // Zadanie 1
-  // Table tab0, tab1;
-  // tab0.SetSize(6);
-  // tab1.SetSize(10);
-  // tab0 = tab1;
-  // Dwie tablicy mają wskaznik na tą samą pamięć
-  // Destruktor pierwszej tablicy zwolni pamięc
-  // Destruktor drugiej tablicy spowoduje exception
+// Przyklad na rozne operacje
+#if 0
+  std::cout << '\n';
+  Table first("first_table", 3), second("second_table", 3), res;
+  first.set(0, 1);
+  first.set(1, 2);
+  first.set(2, 3);
 
-  // Zadanie 2
-  // Wyjątku nie biędzie ale będzie memory leak 2 tablic
+  second.set(0, 4);
+  second.set(1, 5);
+  second.set(2, 6);
 
-  // Zadanie 3
-  // std::cout << '\n';
-  // Table tab2("tab2", 6), tab3("tab3", 4);
-  // tab2.SetValueAt(0, 1);
-  // tab2.SetValueAt(1, 2);
-  // tab2.SetValueAt(2, 3);
-  // tab2.SetValueAt(3, 4);
-  // tab2.SetValueAt(4, 5);
-  // tab2.SetValueAt(5, 6);
+  res = first + second;
+  std::cout << res << '\n';
 
-  // tab3.SetValueAt(0, 51);
-  // tab3.SetValueAt(1, 52);
-  // tab3.SetValueAt(2, 53);
-  // tab3.SetValueAt(3, 54);
+  std::cout << '\n';
+  Table test("test", 3);
+  test.set(0, 3);
+  test.set(1, 4);
+  test.set(2, 5);
+  test[2] = 50;
 
-  // tab2 = tab3;
-  // tab3.SetValueAt(2, 123);
+  std::cout << test << '\n';
+  test *= 2;
+  std::cout << test << '\n';
 
-  // std::cout << tab2 << '\n';
-  // std::cout << tab3 << '\n';
+  std::cout << '\n';
 
-  // Zadanie 4
-  // std::cout << '\n';
-  // Table first("first_table", 3), second("second_table", 3), res;
-  // first.SetValueAt(0, 1);
-  // first.SetValueAt(1, 2);
-  // first.SetValueAt(2, 3);
+  Table test2;
+  test2 = test * 2;
+  std::cout << test2 << '\n';
+#endif
 
-  // second.SetValueAt(0, 4);
-  // second.SetValueAt(1, 5);
-  // second.SetValueAt(2, 6);
+// Przyklad z move semantics w operatorze +
+#if 1
+  Table tab1("table1", 3);
 
-  // res = first + second;
-  // std::cout << res << '\n';
+  tab1.set(0, 1);
+  tab1.set(1, 2);
+  tab1.set(2, 3);
+  std::cout << "Tab1 = " << tab1 << "\n\n";
 
-  // std::cout << '\n';
-  // Table test("test", 3);
-  // test.SetValueAt(0, 3);
-  // test.SetValueAt(1, 4);
-  // test.SetValueAt(2, 5);
-  // test[2] = 5;
+  Table tab2("table2", 3);
+  tab2.set(2, 1);
+  tab2.set(1, 2);
+  tab2.set(0, 3);
+  std::cout << "Tab2 = " << tab2 << "\n\n";
 
-  // std::cout << test << '\n';
-  // test *= 2;
-  // std::cout << test << '\n';
+  Table concat(tab1 + tab2);
+  std::cout << "\nConcat table = " << concat << "\n\n";
 
-  // std::cout << '\n';
+  tab2 = std::move(tab1);
+  std::cout << "tab1 after move = " << tab1 << '\n';
+  std::cout << "tab2 after move = " << tab2 << '\n';
+#endif
 
-  // Table test2;
-  // test2 = test * 2;
-  // std::cout << test2 << '\n';
-  std::string str = "Nazar";
-  SharedPointer<std::string> strpoint = &str;
-  std::cout << *strpoint;
+// Przyklad z zaalokowaną statycznie pamięcią
+#if 0
+  {
+    std::string str = "Hello";
+    SharedPointer<std::string> ptr(&str);
+    std::cout << *ptr << '\n';
+  } // Pointer being freed was not allocated
+#endif
 
   return 0;
 }

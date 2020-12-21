@@ -9,8 +9,8 @@ SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 OBJECTS := $(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 CXX := clang++
-CPPFLAGS := -g -I$(INC_DIR) -MMD -MP
-CXXFLAGS := -std=c++11 -Wall -Wextra 
+CPPFLAGS := -g -I$(INC_DIR) -MMD -MP 
+CXXFLAGS := -std=c++11 -Wall -Wextra -fno-elide-constructors
 LDFLAGS := 
 LDLIBS := 
 

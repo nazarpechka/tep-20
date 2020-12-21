@@ -21,16 +21,14 @@ class SharedPointer {
 };
 
 template <typename T>
-SharedPointer<T>::SharedPointer(T* pointer) {
-  m_pointer = pointer;
-  m_counter = new RefCounter();
+SharedPointer<T>::SharedPointer(T* pointer)
+    : m_pointer(pointer), m_counter(new RefCounter()) {
   m_counter->inc();
 }
 
 template <typename T>
-SharedPointer<T>::SharedPointer(const SharedPointer<T>& other) {
-  m_pointer = other.m_pointer;
-  m_counter = other.m_counter;
+SharedPointer<T>::SharedPointer(const SharedPointer<T>& other)
+    : m_pointer(other.m_pointer), m_counter(other.m_counter) {
   m_counter->inc();
 }
 
